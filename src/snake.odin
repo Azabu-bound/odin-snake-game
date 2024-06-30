@@ -6,7 +6,9 @@ WINDOW_SIZE :: 1000
 GRID_WIDTH :: 20
 CELL_SIZE :: 16
 CANVAS_SIZE :: GRID_WIDTH * CELL_SIZE
+TICK_RATE :: 0.13
 Vec2i :: [2]int
+tick_timer: f32 = TICK_RATE
 
 snake_head_position: Vec2i
 
@@ -19,6 +21,13 @@ main :: proc() {
 
 	// frame game loop
 	for !rl.WindowShouldClose() {
+		tick_timer -= rl.GetFrameTime()
+
+		if tick_timer <= 0 {
+			snake_head_position += {0, 1}
+			tick_timer = TICK_RATE + tick_timer
+		}
+
 		rl.BeginDrawing()
 		rl.ClearBackground({76, 63, 83, 255})
 
