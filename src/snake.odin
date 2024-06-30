@@ -5,6 +5,7 @@ import rl "vendor:raylib"
 WINDOW_SIZE :: 1000
 GRID_WIDTH :: 20
 CELL_SIZE :: 16
+CANVAS_SIZE :: GRID_WIDTH * CELL_SIZE
 Vec2i :: [2]int
 
 snake_head_position: Vec2i
@@ -21,6 +22,12 @@ main :: proc() {
 		rl.BeginDrawing()
 		rl.ClearBackground({76, 63, 83, 255})
 
+		camera := rl.Camera2D {
+			zoom = f32(WINDOW_SIZE / CANVAS_SIZE),
+		}
+
+		rl.BeginMode2D(camera)
+
 		head_rect := rl.Rectangle {
 			f32(snake_head_position.x) * CELL_SIZE,
 			f32(snake_head_position.y) * CELL_SIZE,
@@ -30,6 +37,7 @@ main :: proc() {
 
 		rl.DrawRectangleRec(head_rect, rl.WHITE)
 
+		rl.EndMode2D()
 		rl.EndDrawing()
 	}
 
